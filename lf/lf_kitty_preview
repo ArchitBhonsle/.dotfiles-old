@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+file=$1
+w=$2
+h=$3
+x=$4
+y=$5
+
+
+filetype="$(file --brief --dereference --mime-type "$file")"
+
+if [[ "$filetype" =~ ^text ]]; then
+  bat --plain --color always --theme base16 --terminal-width "$w" --line-range :"$h" "$file"
+  exit 1
+fi
+
+if [[ "$filetype" =~ ^image ]]; then
+  kitty +kitten icat --silent --stdin no --transfer-mode file --place "${w}x${h}@${x}x${y}" "$file" < /dev/null > /dev/tty
+  exit 1
+fi
+
+if [[ "$filetype" == "application/pdf" ]]; then
+  imageprefix="/tmp/${file//\//%}"
+
+  if [[ ! -f "$imageprefix.png" ]]; then
+    output="$(pdftoppm -singlefile -png "$file" "$imageprefix" 2>&1)"
+    echo $output
+  fi
+
+  kitty +kitten icat --silent --stdin no --transfer-mode file --place "${w}x${h}@${x}x${y}" "$imageprefix.png" < /dev/null > /dev/tty
+  exit 1
+fi
+

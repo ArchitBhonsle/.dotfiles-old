@@ -1,0 +1,10 @@
+[Unit]
+Description=Clone Notes to Google Drive
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/.dotfiles/utils/backup-notes.sh
+
+[Install]
+WantedBy=default.target

@@ -1,0 +1,10 @@
+[Unit]
+Description=Clone Notes to Google Drive every hour
+
+[Timer]
+OnCalendar=hourly
+Persistent=true
+RandomizedDelaySec=1minute
+
+[Install]
+WantedBy=timers.target

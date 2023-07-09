@@ -1,0 +1,24 @@
+set shell     zsh    # interpreter for shell commands
+set shellopts '-eu'  # exit on error and error for unset variables
+set ifs       '\n'   # automatically split file names in $fs and $fx properly
+set scrolloff 10     # leave space at the bottom
+set tabstop   4
+set hidden
+set icons
+set mouse
+set number
+set relativenumber
+set drawbox          # borders around the sections
+
+set previewer ~/.config/lf/lf_kitty_preview
+set cleaner   ~/.config/lf/lf_kitty_clean
+
+cmd delete ${{
+    set -f
+    printf "$fx\n"
+    printf "Delete? [y/n]"
+    read ans
+    [ "$ans" = "y" ] && trash $fx
+}}
+map D        delete
+map <delete> delete
